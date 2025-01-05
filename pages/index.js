@@ -115,6 +115,7 @@ export default function Home() {
                   whiteSpace: "pre-wrap",
                   color: "#fff",
                   backgroundColor: isUser ? "#005dff" : "#333333",
+                  fontSize: "1rem", // Chat messages slightly larger
                 }}
               >
                 {isUser ? (
@@ -132,12 +133,12 @@ export default function Home() {
       <footer
         style={{
           borderTop: "1px solid #333",
-          padding: "0.9rem",
+          padding: "0.5rem",
           flexShrink: 0,
           backgroundColor: "#1e1e1e",
         }}
       >
-        {/* Suggested prompts (faded) */}
+        {/* Suggested prompts (faded, slightly smaller font) */}
         <div
           style={{
             display: "flex",
@@ -158,6 +159,7 @@ export default function Home() {
                 borderRadius: "4px",
                 padding: "0.25rem 0.5rem",
                 cursor: "pointer",
+                fontSize: "0.9rem", // Slightly smaller than 1rem
               }}
             >
               {prompt}
