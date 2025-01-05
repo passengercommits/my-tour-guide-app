@@ -3,19 +3,24 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 export default function Home() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      role: "assistant",
+      content:
+        "Welcome to Dublin! I'm Connor, your Irish tour guide. Ask me anything about Ireland or Dublin, and I'll make sure your visit is unforgettable!",
+    },
+  ]);
   const [userInput, setUserInput] = useState("");
 
   // Example suggested prompts
   const suggestedPrompts = [
-    "Where's a good places to eat?",
+    "Where's a good place to eat?",
     "What are some nice hidden gems?",
     "Where can I get the best Guinness?",
   ];
 
   const chatContainerRef = useRef(null);
 
-  // Keep chat scrolled to the bottom whenever messages change
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -25,7 +30,6 @@ export default function Home() {
   async function sendMessage() {
     if (!userInput.trim()) return;
 
-    // Add user message to local state
     const newMessages = [...messages, { role: "user", content: userInput }];
     setMessages(newMessages);
     setUserInput("");
@@ -37,9 +41,8 @@ export default function Home() {
         body: JSON.stringify({ messages: newMessages }),
       });
       if (!res.ok) throw new Error("Request failed");
-      const data = await res.json();
 
-      // Add AI response
+      const data = await res.json();
       setMessages([...newMessages, { role: "assistant", content: data.content }]);
     } catch (err) {
       console.error(err);
@@ -70,9 +73,8 @@ export default function Home() {
           backgroundColor: "#1e1e1e",
         }}
       >
-        {/* Replace /myAIImage.png with your actual image in /public */}
         <img
-          src="/myAIImage.PNG"
+          src="/myAIImage.png"
           alt="AI Avatar"
           style={{
             width: "100px",
@@ -82,7 +84,7 @@ export default function Home() {
             marginBottom: "0.5rem",
           }}
         />
-        <h1 style={{ margin: 0, fontSize: "1.25rem" }}>Connor the Tour Guide</h1>
+        <h1 style={{ margin: 0, fontSize: "1.25rem" }}>Tour Guide Chat</h1>
       </header>
 
       {/* Chat Area */}
@@ -118,14 +120,7 @@ export default function Home() {
                 {isUser ? (
                   msg.content
                 ) : (
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    components={{
-                      p: ({children}) => <span style={{margin: 0}}>{children}</span>
-                    }}
-                  >
-                    {msg.content.trim()}
-                  </ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
                 )}
               </div>
             </div>
@@ -142,7 +137,7 @@ export default function Home() {
           backgroundColor: "#1e1e1e",
         }}
       >
-        {/* Suggested Prompts (faded) */}
+        {/* Suggested prompts (faded) */}
         <div
           style={{
             display: "flex",
