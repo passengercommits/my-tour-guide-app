@@ -64,7 +64,7 @@ export default function Home() {
         }}
       >
         <img
-          src="/myAIImage.png"
+          src="/myAIImage.PNG"
           alt="AI Avatar"
           style={{
             width: "100px",
@@ -74,7 +74,7 @@ export default function Home() {
             marginBottom: "0.5rem",
           }}
         />
-        <h1 style={{ margin: 0, fontSize: "1.25rem" }}>Tour Guide Chat</h1>
+        <h1 style={{ margin: 0, fontSize: "1.25rem" }}>Connor the Tour Guide</h1>
       </header>
 
       {/* --- Chat Area --- */}
