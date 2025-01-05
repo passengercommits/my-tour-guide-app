@@ -12,13 +12,6 @@ export default function Home() {
   ]);
   const [userInput, setUserInput] = useState("");
 
-  // Example suggested prompts
-  const suggestedPrompts = [
-    "Where's a good place to eat?",
-    "What are some nice hidden gems?",
-    "Where can I get the best Guinness?",
-  ];
-
   const chatContainerRef = useRef(null);
 
   useEffect(() => {
@@ -29,7 +22,6 @@ export default function Home() {
 
   async function sendMessage() {
     if (!userInput.trim()) return;
-
     const newMessages = [...messages, { role: "user", content: userInput }];
     setMessages(newMessages);
     setUserInput("");
@@ -41,12 +33,10 @@ export default function Home() {
         body: JSON.stringify({ messages: newMessages }),
       });
       if (!res.ok) throw new Error("Request failed");
-
       const data = await res.json();
       setMessages([...newMessages, { role: "assistant", content: data.content }]);
     } catch (err) {
       console.error(err);
-      alert("Error sending message. Check console/logs.");
     }
   }
 
@@ -61,7 +51,7 @@ export default function Home() {
         fontFamily: "Arial, sans-serif",
       }}
     >
-      {/* Header with AI Avatar */}
+      {/* --- Header --- */}
       <header
         style={{
           display: "flex",
@@ -74,7 +64,7 @@ export default function Home() {
         }}
       >
         <img
-          src="/myAIImage.PNG"
+          src="/myAIImage.png"
           alt="AI Avatar"
           style={{
             width: "100px",
@@ -84,10 +74,10 @@ export default function Home() {
             marginBottom: "0.5rem",
           }}
         />
-        <h1 style={{ margin: 0, fontSize: "1.25rem" }}>Connor the Tour Guide</h1>
+        <h1 style={{ margin: 0, fontSize: "1.25rem" }}>Tour Guide Chat</h1>
       </header>
 
-      {/* Chat Area */}
+      {/* --- Chat Area --- */}
       <div
         ref={chatContainerRef}
         style={{
@@ -101,10 +91,11 @@ export default function Home() {
           return (
             <div
               key={index}
+              // Reduce vertical spacing between messages:
               style={{
                 display: "flex",
                 justifyContent: isUser ? "flex-end" : "flex-start",
-                marginBottom: "0.75rem",
+                margin: "0.25rem 0", // or 0 if you want absolutely no gap
               }}
             >
               <div
@@ -115,13 +106,24 @@ export default function Home() {
                   whiteSpace: "pre-wrap",
                   color: "#fff",
                   backgroundColor: isUser ? "#005dff" : "#333333",
-                  fontSize: "1rem", // Chat messages slightly larger
+                  fontSize: "1rem",
+                  margin: 0, // ensures no extra margin on the bubble itself
                 }}
               >
                 {isUser ? (
                   msg.content
                 ) : (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      // Override default paragraph margin
+                      p: ({ node, ...props }) => (
+                        <p style={{ margin: 0 }} {...props} />
+                      ),
+                    }}
+                  >
+                    {msg.content}
+                  </ReactMarkdown>
                 )}
               </div>
             </div>
@@ -129,7 +131,7 @@ export default function Home() {
         })}
       </div>
 
-      {/* Footer with suggested prompts + input */}
+      {/* --- Footer (Suggested prompts + Input) --- */}
       <footer
         style={{
           borderTop: "1px solid #333",
@@ -138,7 +140,7 @@ export default function Home() {
           backgroundColor: "#1e1e1e",
         }}
       >
-        {/* Suggested prompts (faded, slightly smaller font) */}
+        {/* Example suggested prompts */}
         <div
           style={{
             display: "flex",
@@ -148,7 +150,7 @@ export default function Home() {
             opacity: 0.8,
           }}
         >
-          {suggestedPrompts.map((prompt, idx) => (
+          {["Where's a good place to eat?", "Hidden gems?", "Best Guinness?"].map((prompt, idx) => (
             <button
               key={idx}
               onClick={() => setUserInput(prompt)}
@@ -159,7 +161,7 @@ export default function Home() {
                 borderRadius: "4px",
                 padding: "0.25rem 0.5rem",
                 cursor: "pointer",
-                fontSize: "0.9rem", // Slightly smaller than 1rem
+                fontSize: "0.9rem",
               }}
             >
               {prompt}
@@ -167,7 +169,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Input row */}
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <input
             type="text"
