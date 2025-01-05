@@ -8,7 +8,7 @@ export default function Home() {
 
   // Example suggested prompts
   const suggestedPrompts = [
-    "Where's a good place to eat?",
+    "Where's a good places to eat?",
     "What are some nice hidden gems?",
     "Where can I get the best Guinness?",
   ];
