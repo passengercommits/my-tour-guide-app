@@ -72,7 +72,7 @@ export default function Home() {
       >
         {/* Replace /myAIImage.png with your actual image in /public */}
         <img
-          src="/public/myAIImage.png"
+          src="/myAIImage.png"
           alt="AI Avatar"
           style={{
             width: "100px",
