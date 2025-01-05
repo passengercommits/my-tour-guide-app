@@ -7,7 +7,7 @@ export default function Home() {
     {
       role: "assistant",
       content:
-        "Welcome to Dublin! I'm Connor, your Irish tour guide. Ask me anything about Ireland or Dublin, and I'll make sure your visit is unforgettable!",
+        "Welcome to Dublin! I'm Seán, your Irish tour guide. Ask me anything about Ireland or Dublin, and I'll make sure your visit is unforgettable!",
     },
   ]);
   const [userInput, setUserInput] = useState("");
@@ -74,7 +74,7 @@ export default function Home() {
             marginBottom: "0.5rem",
           }}
         />
-        <h1 style={{ margin: 0, fontSize: "1.25rem" }}>Connor the Tour Guide</h1>
+        <h1 style={{ margin: 0, fontSize: "1.25rem" }}>Seán the Tour Guide</h1>
       </header>
 
       {/* --- Chat Area --- */}
