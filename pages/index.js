@@ -74,7 +74,7 @@ export default function Home() {
         }}
       >
         <img
-          src="/myAIImage.png"
+          src="/myAIImage.PNG"
           alt="AI Avatar"
           style={{
             width: "100px",
@@ -132,7 +132,7 @@ export default function Home() {
       <footer
         style={{
           borderTop: "1px solid #333",
-          padding: "0.5rem",
+          padding: "0.9rem",
           flexShrink: 0,
           backgroundColor: "#1e1e1e",
         }}
