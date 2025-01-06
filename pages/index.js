@@ -26,6 +26,9 @@ export default function Home() {
     setMessages(newMessages);
     setUserInput("");
 
+    // Add thinking message
+    setMessages([...newMessages, { role: "assistant", content: "", isThinking: true }]);
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -37,6 +40,7 @@ export default function Home() {
       setMessages([...newMessages, { role: "assistant", content: data.content }]);
     } catch (err) {
       console.error(err);
+      setMessages([...newMessages, { role: "assistant", content: "Sorry, I encountered an error. Please try again." }]);
     }
   }
 
@@ -91,11 +95,10 @@ export default function Home() {
           return (
             <div
               key={index}
-              // Reduce vertical spacing between messages:
               style={{
                 display: "flex",
                 justifyContent: isUser ? "flex-end" : "flex-start",
-                margin: "0.25rem 0", // or 0 if you want absolutely no gap
+                margin: "0.25rem 0",
               }}
             >
               <div
@@ -107,16 +110,53 @@ export default function Home() {
                   color: "#fff",
                   backgroundColor: isUser ? "#005dff" : "#333333",
                   fontSize: "1rem",
-                  margin: 0, // ensures no extra margin on the bubble itself
+                  margin: 0,
                 }}
               >
                 {isUser ? (
                   msg.content
+                ) : msg.isThinking ? (
+                  <div style={{
+                    display: "flex",
+                    gap: "4px",
+                    alignItems: "center",
+                    height: "20px"
+                  }}>
+                    <div style={{
+                      width: "8px",
+                      height: "8px",
+                      backgroundColor: "#fff",
+                      borderRadius: "50%",
+                      animation: "thinking 1.4s infinite",
+                      animationDelay: "0s"
+                    }} />
+                    <div style={{
+                      width: "8px",
+                      height: "8px",
+                      backgroundColor: "#fff",
+                      borderRadius: "50%",
+                      animation: "thinking 1.4s infinite",
+                      animationDelay: "0.2s"
+                    }} />
+                    <div style={{
+                      width: "8px",
+                      height: "8px",
+                      backgroundColor: "#fff",
+                      borderRadius: "50%",
+                      animation: "thinking 1.4s infinite",
+                      animationDelay: "0.4s"
+                    }} />
+                    <style>{`
+                      @keyframes thinking {
+                        0%, 80%, 100% { transform: scale(0.4); opacity: 0.4; }
+                        40% { transform: scale(1); opacity: 1; }
+                      }
+                    `}</style>
+                  </div>
                 ) : (
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
-                      // Override default paragraph margin
                       p: ({ node, ...props }) => (
                         <p style={{ margin: 0 }} {...props} />
                       ),
